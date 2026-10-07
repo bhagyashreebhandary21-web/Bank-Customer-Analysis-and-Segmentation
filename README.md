@@ -44,3 +44,20 @@ Customers were divided into three groups based on their number of transactions:
 The project uses a large bank transaction dataset containing more than one million transaction records.
 
 A smaller sample dataset is included in this repository for demonstration purposes.
+
+## Code Example
+
+```python
+transaction_count = df.groupby('CustomerID')['TransactionID'].count()
+
+df['TransactionCount'] = df['CustomerID'].map(transaction_count)
+
+df['CustomerSegment'] = pd.cut(
+    df['TransactionCount'],
+    bins=[0, 1, 5, float('inf')],
+    labels=[
+        'One-Time Customer',
+        'Occasional Customer',
+        'Frequent Customer'
+    ]
+)
